@@ -1,5 +1,5 @@
 """
-Language utilities for trajectory preprocessing and batching with Task support.
+SemBid utilities for trajectory preprocessing and batching with Task support.
 """
 import numpy as np
 import pandas as pd
@@ -7,7 +7,7 @@ import torch
 import pickle
 import sys
 from torch.utils.data import Dataset
-from language_templates_high import BiddingLanguageGeneratorWithTask
+from sembid_templates_high import BiddingLanguageGeneratorWithTask
 
 class NumpyCompatUnpickler(pickle.Unpickler):
     """Map numpy._core.* pickles to numpy.core.* for numpy<2.0."""
@@ -24,7 +24,7 @@ def load_pickle_compat(path):
 
 class LanguageAugmentedReplayBufferWithTask(Dataset):
     """
-    Language-augmented replay buffer with Task Description support.
+    SemBid-augmented replay buffer with Task Description support.
     """
     def __init__(self, state_dim, act_dim, data_path, K=20, scale=3000, 
                  use_language=True, language_type='both', use_precomputed_embeddings=False):

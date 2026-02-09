@@ -5,7 +5,7 @@ It includes training, testing, and algorithm modules.
 
 ## Layout
 
-- `code/Algorithms`: model + language template modules
+- `code/Algorithms`: model + SemBid template modules
 - `code/Training`: training entry points
 - `code/Testing`: evaluation entry points
 - `code/bidding_train_env`: offline evaluation environment and utilities
@@ -19,13 +19,13 @@ Simbid/
   code/
     Algorithms/
       dt.py                         # Transformer building blocks
-      sembid_DT.py                  # SemBid model (Language-Guided DT)
-      language_utils.py             # Dataset loading and batching
-      language_templates_high.py    # High-conversion prompt templates
-      language_templates_low.py     # Low-conversion prompt templates
+      sembid_DT.py                  # SemBid model (current-action DT)
+      sembid_utils.py               # Dataset loading and batching
+      sembid_templates_high.py      # High-conversion prompt templates
+      sembid_templates_low.py       # Low-conversion prompt templates
     Training/
       train.py                      # Training entry point
-      preprocess_embeddings.py      # CSV -> PKL + embedding lookup
+      preprocess_sembid_embeddings.py # CSV -> PKL + embedding lookup
     Testing/
       test.py                       # Evaluation entry point
     bidding_train_env/
@@ -61,11 +61,11 @@ Tested environment (server `Simbid`):
 2) Preprocess (CSV -> PKL + optional lookup):
 
 ```bash
-python code/Training/preprocess_embeddings.py \
+python code/Training/preprocess_sembid_embeddings.py \
   --input_csv data/train/trajectory.csv \
   --output_pkl data/train/trajectory_data_2048.pkl \
   --lookup_out data/train/embedding_lookup.pkl \
-  --template_module language_templates_high
+  --template_module sembid_templates_high
 ```
 
 3) Train:
@@ -115,7 +115,7 @@ Test CSV must include at least:
 
 1) Start from a trajectory CSV with `state`, `action`, and `reward` columns.  
 2) For each row, compute `prev_state` and `prev_action` within each trajectory.  
-3) Use a template module (`language_templates_high` or `language_templates_low`) to generate
+3) Use a template module (`sembid_templates_high` or `sembid_templates_low`) to generate
    Task/History/Strategy text per row.  
 4) Encode those texts with Qwen/Qwen2.5-0.5B-Instruct into embeddings (default 2048-d).  
 5) Save the DataFrame (including embedding columns) to `trajectory_data_2048.pkl`.
@@ -125,11 +125,11 @@ Test CSV must include at least:
 You can use the built-in script to generate the 2048-d embeddings and an optional lookup table:
 
 ```bash
-python code/Training/preprocess_embeddings.py \
+python code/Training/preprocess_sembid_embeddings.py \
   --input_csv data/train/trajectory.csv \
   --output_pkl data/train/trajectory_data_2048.pkl \
   --lookup_out data/train/embedding_lookup.pkl \
-  --template_module language_templates_high
+  --template_module sembid_templates_high
 ```
 
 The `embedding_lookup.pkl` is a pickle dict with:
@@ -161,8 +161,8 @@ python code/Training/train.py \
 
 Two prompt template modules are provided:
 
-- High-conversion: `code/Algorithms/language_templates_high.py`
-- Low-conversion: `code/Algorithms/language_templates_low.py`
+- High-conversion: `code/Algorithms/sembid_templates_high.py`
+- Low-conversion: `code/Algorithms/sembid_templates_low.py`
 
 ## Test (single run)
 
@@ -172,7 +172,7 @@ python code/Testing/test.py \
   --test_file data/test/period-7.csv \
   --language_emb_dim 2048 \
   --budget_ratio 1.0 \
-  --template_module language_templates_high \
+  --template_module sembid_templates_high \
   --embedding_lookup data/train/embedding_lookup.pkl
 ```
 

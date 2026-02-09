@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Training script for the current-action Language-Guided DT (2048-d Qwen embeddings).
+Training script for the current-action SemBid DT (2048-d Qwen embeddings).
 History/Strategy tokens are placed before State to keep same-step context visible.
 """
 import os
@@ -20,7 +20,7 @@ sys.path.insert(0, algo_dir)
 sys.path.insert(0, code_dir)
 
 from bidding_train_env.common.utils import save_normalize_dict
-from language_utils import LanguageAugmentedReplayBufferWithTask, language_collate_fn_with_task
+from sembid_utils import LanguageAugmentedReplayBufferWithTask, language_collate_fn_with_task
 from sembid_DT import LanguageGuidedDTWithTaskFlexible
 from torch.utils.data import DataLoader, WeightedRandomSampler
 
@@ -40,16 +40,16 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Train Language-Guided DT (2048-d, History/Strategy before State)')
+    parser = argparse.ArgumentParser(description='Train SemBid DT (2048-d, History/Strategy before State)')
 
-    # Language configuration.
+    # SemBid text configuration.
     parser.add_argument('--use_language', action='store_true', default=True,
                         help='Enable language guidance')
     parser.add_argument('--language_type', type=str, default='both',
                         choices=['history', 'strategy', 'both', 'none'],
-                        help='Language type: history, strategy, both, none')
+                        help='SemBid text type: history, strategy, both, none')
     parser.add_argument('--language_emb_dim', type=int, default=2048,
-                        help='Language embedding dimension')
+                        help='SemBid embedding dimension')
 
     # Data configuration.
     parser.add_argument('--data_file', type=str,
@@ -80,20 +80,20 @@ def main():
     args = parse_args()
 
     logger.info("="*70)
-    logger.info("Language-Guided DT Training (2048-d, History/Strategy before State)")
+    logger.info("SemBid DT Training (2048-d, History/Strategy before State)")
     logger.info("="*70)
 
     # Resolve output directory.
     if args.output_dir is None:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         exp_name = f"Simbid_Qwen_DT_2048_{timestamp}{args.exp_name}"
-        output_dir = os.path.join(root_dir, "models", "LanguageDT", exp_name)
+        output_dir = os.path.join(root_dir, "models", "SemBid", exp_name)
     else:
         output_dir = args.output_dir
 
     os.makedirs(output_dir, exist_ok=True)
     logger.info(f"Output directory: {output_dir}")
-    logger.info(f"Language embedding dim: {args.language_emb_dim}")
+    logger.info(f"SemBid embedding dim: {args.language_emb_dim}")
 
     # Load data.
     logger.info(f"Loading data: {args.data_file}")
@@ -222,7 +222,7 @@ def main():
             os.makedirs(checkpoint_path, exist_ok=True)
 
             # Save model weights.
-            torch.save(model.state_dict(), os.path.join(checkpoint_path, 'language_dt_2048.pt'))
+            torch.save(model.state_dict(), os.path.join(checkpoint_path, 'sembid_dt_2048.pt'))
 
             # Save training config.
             config = {

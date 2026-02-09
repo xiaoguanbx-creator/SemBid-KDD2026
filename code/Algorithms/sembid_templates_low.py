@@ -1,12 +1,12 @@
 """
-Low-conversion language templates (random sampling).
+Low-conversion SemBid templates (random sampling).
 """
 import numpy as np
 import random
 
 
 class BiddingLanguageGeneratorWithTask:
-    """Generate bidding language guidance (History + Strategy + Task) for low-conv."""
+    """Generate SemBid guidance (History + Strategy + Task) for low-conv."""
 
     def __init__(
         self,

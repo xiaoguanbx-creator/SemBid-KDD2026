@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Preprocess trajectory CSV into a PKL with 2048-d language embeddings and
+Preprocess trajectory CSV into a PKL with 2048-d SemBid embeddings and
 optional embedding lookup table for fast testing.
 """
 import argparse
@@ -189,8 +189,8 @@ def main():
     parser = argparse.ArgumentParser(description="Preprocess trajectories into 2048-d embeddings.")
     parser.add_argument('--input_csv', type=str, required=True, help='Input trajectory CSV file')
     parser.add_argument('--output_pkl', type=str, required=True, help='Output PKL with embeddings')
-    parser.add_argument('--template_module', type=str, default='language_templates_high',
-                        help='Template module (language_templates_high or language_templates_low)')
+    parser.add_argument('--template_module', type=str, default='sembid_templates_high',
+                        help='Template module (sembid_templates_high or sembid_templates_low)')
     parser.add_argument('--model_name', type=str, default='Qwen/Qwen2.5-0.5B-Instruct',
                         help='HuggingFace model name for encoding')
     parser.add_argument('--embedding_dim', type=int, default=2048, help='Embedding dimension')

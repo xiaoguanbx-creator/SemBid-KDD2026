@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Standard test script (GAS/GAVE-style budget handling).
-Qwen-0.5B + 2048-d LanguageDT test (History/Strategy before State).
+Qwen-0.5B + 2048-d SemBid test (History/Strategy before State).
 """
 import sys
 import torch
@@ -163,7 +163,11 @@ class BiddingStrategy:
         )
 
         # Load model weights.
-        model_path = os.path.join(model_dir, 'language_dt.pt')
+        model_path = os.path.join(model_dir, 'sembid_dt.pt')
+        if not os.path.exists(model_path):
+            model_path = os.path.join(model_dir, 'sembid_dt_2048.pt')
+        if not os.path.exists(model_path):
+            model_path = os.path.join(model_dir, 'language_dt.pt')
         if not os.path.exists(model_path):
             model_path = os.path.join(model_dir, 'language_dt_2048.pt')
         if not os.path.exists(model_path):
@@ -184,7 +188,7 @@ class BiddingStrategy:
         else:
             self.encoder = QwenEncoder2048(output_dim=language_emb_dim, device=device)
 
-        # Language generator (for text used in encoding or lookup).
+        # SemBid generator (for text used in encoding or lookup).
         if language_generator_cls is None:
             raise ValueError("language_generator_cls is required.")
         self.language_generator = language_generator_cls()
@@ -620,10 +624,10 @@ if __name__ == '__main__':
     parser.add_argument('--test_file', type=str,
                        default='data/test/period-7.csv',
                        help='Test data file')
-    parser.add_argument('--language_emb_dim', type=int, default=2048, help='Language embedding dimension')
+    parser.add_argument('--language_emb_dim', type=int, default=2048, help='SemBid embedding dimension')
     parser.add_argument('--embedding_lookup', type=str, default=None, help='Embedding lookup path')
-    parser.add_argument('--template_module', type=str, default='language_templates_high',
-                        help='Template module (language_templates_high or language_templates_low)')
+    parser.add_argument('--template_module', type=str, default='sembid_templates_high',
+                        help='Template module (sembid_templates_high or sembid_templates_low)')
     args = parser.parse_args()
 
     logger.info("="*80)

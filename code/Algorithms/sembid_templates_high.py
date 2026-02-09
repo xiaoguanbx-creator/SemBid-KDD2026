@@ -1,12 +1,12 @@
 """
-Language templates for the bidding domain (History + Strategy + Task).
+SemBid templates for the bidding domain (History + Strategy + Task).
 """
 import numpy as np
 import random
 
 
 class BiddingLanguageGeneratorWithTask:
-    """Generate bidding language guidance (History + Strategy + Task)."""
+    """Generate SemBid guidance (History + Strategy + Task)."""
 
     def __init__(self, roi_thresholds=(0.5, 1.0, 1.5), cvr_change_thresholds=(0.001, 0.002), cpa_change_thresholds=(5, 10)):
         """
