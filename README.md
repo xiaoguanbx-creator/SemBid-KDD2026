@@ -36,21 +36,7 @@ Simbid/
 
 ## Environment
 
-The original runs use a conda environment named `Simbid`.
-
-```bash
-conda create -n Simbid python=3.9
-conda activate Simbid
-pip install -r requirements.txt
-```
-
-Tested environment (server `Simbid`):
-- Python 3.9.25
-- PyTorch 2.6.0 (CUDA 12.6)
-- transformers 4.57.3
-- sentence-transformers 5.1.2
-- numpy 2.0.2
-- pandas 2.3.1
+Environment versions are listed in `env.txt`.
 
 ## Quickstart (Training)
 
