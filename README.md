@@ -1,9 +1,36 @@
-# Simbid
+<div align="center">
+  <h1>SemBid</h1>
+  <p>Current-action Decision Transformer pipeline for auction bidding.</p>
+  <p>
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.9-blue">
+    <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-2.6.0-orange">
+    <img alt="CUDA" src="https://img.shields.io/badge/CUDA-12.6-green">
+    <img alt="Linux" src="https://img.shields.io/badge/Linux-OK-lightgrey">
+    <img alt="Git" src="https://img.shields.io/badge/Git-OK-lightgrey">
+  </p>
+  <p>
+    <code>Offline RL</code>
+    <code>Decision Transformer</code>
+    <code>Auction Bidding</code>
+    <code>Prompt Templates</code>
+    <code>Embedding Lookup</code>
+  </p>
+</div>
 
-Simbid is an open-source snapshot of a current-action Decision Transformer pipeline for auction bidding.
-It includes training, testing, and algorithm modules.
+## Tech Stack Matrix
 
-## Layout
+<table>
+  <tr>
+    <td><b>LLM Inference Infra</b><br>Qwen2.5-0.5B embeddings<br>Lookup table for test-time speed</td>
+    <td><b>Multi-Agent</b><br>Per-advertiser evaluation agents<br>Offline simulation rollouts</td>
+  </tr>
+  <tr>
+    <td><b>RL Post-Training</b><br>Decision Transformer<br>Current-action prediction</td>
+    <td><b>Infra & Tools</b><br>PyTorch + CUDA<br>pandas / numpy</td>
+  </tr>
+</table>
+
+## Repo Layout
 
 - `code/Algorithms`: model + SemBid template modules
 - `code/Training`: training entry points
