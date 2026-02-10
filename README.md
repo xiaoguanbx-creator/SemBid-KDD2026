@@ -63,7 +63,7 @@ Simbid/
 
 ## Environment
 
-Environment versions are listed in `env.txt`.
+Environment versions are listed in `requirements.txt`.
 
 ## Quickstart (Training)
 
